@@ -13,6 +13,13 @@ class Controller:
         self.tello.streamon()
         self.inAir = False
 
+    def center_in_view(self, face):
+        pass
+
+
+
+
+
     def takeoff(self):
         if not self.inAir:
             try:

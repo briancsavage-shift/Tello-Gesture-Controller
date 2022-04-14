@@ -1,37 +1,42 @@
+from typing import Tuple
 from controller import Controller
 from detectors import FaceDetector
 import pprint
-import cv2
 
 
 def main():
-    log = lambda x: pprint.pprint(x, indent=4)
-
     tello = Controller()
     detector = FaceDetector()
-
     status = tello.metrics()
     log(status)
 
     tello.takeoff()
-
     tello.move(direction="up", magnitude=50)
-    tello.move(direction="clockwise", magnitude=50)
+    tracking = None
 
-    count = 15
-    while count > 0:
-        img = tello.view()
-        features = detector.detect(img)
-        annotated = detector.visualize(features, img)
+    while tracking is None:
+        if tracking is None:
+            tello.move(direction="clockwise", magnitude=30)
+        else:
+            (direction, magnitude) = tello.center_in_view(tracking)
+            tello.move(direction=direction, magnitude=magnitude)
 
-        log(features)
-
-        cv2.imshow("Drone View", annotated)
-        cv2.waitKey(1)
-        count -= 1
+        image = tello.view()
+        faces = detector.detect(image)
+        tracking = midpoint(faces[0]["faceEdges"]) if faces else None
+        print(f"Tracking: {tracking}" if tracking else "No face detected")
 
     tello.land()
     return
+
+
+def log(msg: str):
+    pprint.pprint(msg, indent=4)
+
+
+def midpoint(face_edges: Tuple[Tuple[int, int], Tuple[int, int]]) -> Tuple:
+    (left, top), (right, bottom) = face_edges
+    return (left + right) / 2, (top + bottom) / 2
 
 
 if __name__ == '__main__':
