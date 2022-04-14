@@ -1,2 +1,6 @@
-djitellopy
-opencv-python
+djitellopy~=2.4.0
+opencv-python~=4.5.5.64
+dlib~=19.23.1
+imutils~=0.5.4
+setuptools~=58.1.0
+numpy~=1.22.3

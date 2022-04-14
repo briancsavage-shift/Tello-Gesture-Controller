@@ -6,7 +6,13 @@ setup(
     packages=[''],
     url='',
     license='',
-    author='Brian Savage, ',
-    author_email='brian.savage@tufts.edu',
-    description='Repo that handles navigation with Tello drone'
+    author='',
+    author_email='brian.savage@tufts.edu, ',
+    description='Repo that handles navigation with Tello drone',
+    install_requires=[
+        'opencv-python',
+        'numpy',
+        'imutils',
+        'djitellopy',
+    ],
 )

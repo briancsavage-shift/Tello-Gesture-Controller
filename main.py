@@ -1,19 +1,37 @@
-from djitellopy import Tello
+from controller import Controller
+from detectors import FaceDetector
+import pprint
 import cv2
 
 
 def main():
-    drone = Tello()
-    drone.connect()
-    # drone.takeoff()
-    # drone.land()
-    print(drone.get_battery())
-    drone.streamon()
-    while True:
-        img = drone.get_frame_read().frame
-        img = cv2.resize(img, (360, 240))
-        cv2.imshow('Image', img)
-        cv2.waitKey(1)
+    log = lambda x: pprint.pprint(x, indent=4)
+
+    tello = Controller()
+    detector = FaceDetector()
+
+    status = tello.metrics()
+    log(status)
+
+    tello.takeoff()
+
+    tello.move(direction="up", magnitude=20)
+    tello.move(direction="clockwise", magnitude=20)
+
+    # count = 15
+    #
+    # while count > 0:
+    #     img = tello.view()
+    #     features = detector.detect(img)
+    #     annotated = detector.visualize(features, img)
+    #
+    #     log(features)
+    #
+    #     cv2.imshow("Drone View", annotated)
+    #     cv2.waitKey(1)
+    #     count -= 1
+
+    tello.land()
     return
 
 
