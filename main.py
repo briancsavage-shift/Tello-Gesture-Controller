@@ -1,7 +1,9 @@
+import time
+import pprint
+import numpy as np
 from typing import Tuple
 from controller import Controller
 from detectors import FaceDetector
-import pprint
 
 
 def main():
@@ -10,23 +12,33 @@ def main():
     status = tello.metrics()
     log(status)
 
-    tello.takeoff()
-    tello.move(direction="up", magnitude=50)
+    # tello.takeoff()
+    # tello.move(direction="up", magnitude=70)
+
     tracking = None
+    image = np.ndarray(shape=(480, 640, 3), dtype=np.uint8)
 
-    while tracking is None:
-        if tracking is None:
-            tello.move(direction="clockwise", magnitude=30)
-        else:
-            (direction, magnitude) = tello.center_in_view(tracking)
-            tello.move(direction=direction, magnitude=magnitude)
+    try:
+        while True:
+            if tracking is None:
+                # tello.move(direction="clockwise", magnitude=30)
+                pass
+            else:
+                X, Y = tracking
+                (direction, magnitude) = tello.center_in_view(image=image,
+                                                              x=X,
+                                                              y=Y)
+                # tello.move(direction=direction, magnitude=magnitude)
 
-        image = tello.view()
-        faces = detector.detect(image)
-        tracking = midpoint(faces[0]["faceEdges"]) if faces else None
-        print(f"Tracking: {tracking}" if tracking else "No face detected")
+            image = tello.view()
+            faces = detector.detect(image)
+            tracking = midpoint(faces[0]["faceEdges"]) if faces else None
+            print(f"Tracking: {tracking}" if tracking else "No face detected")
+            time.sleep(1)
+    except KeyboardInterrupt:
+        pass
+        # tello.land()
 
-    tello.land()
     return
 
 

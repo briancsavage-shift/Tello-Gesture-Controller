@@ -1,4 +1,6 @@
+import numpy as np
 from djitellopy import Tello
+from typing import Tuple
 
 
 class Controller:
@@ -13,12 +15,24 @@ class Controller:
         self.tello.streamon()
         self.inAir = False
 
-    def center_in_view(self, face):
-        pass
+    @staticmethod
+    def center_in_view(image: np.ndarray,
+                       x: int,
+                       y: int) -> Tuple[str, int]:
+        move = "None"
+        H, W = image.shape[:2]
+        if x < W // 2:
+            move = "counter_clockwise"
+        elif x > W // 2:
+            move = "clockwise"
 
+        X, Y = (W // 2, H // 2)
+        magnitude = np.sqrt((x - X) ** 2 + (y - Y) ** 2)
+        max_value = np.sqrt((W // 2) ** 2 + (H // 2) ** 2)
+        normalized = np.multiply(np.divide(magnitude, max_value), 100)
 
-
-
+        print(f"Computed Magnitude: {normalized}")
+        return move, 0
 
     def takeoff(self):
         if not self.inAir:
@@ -48,6 +62,7 @@ class Controller:
             "down": self.tello.move_down,
             "clockwise": self.tello.rotate_clockwise,
             "counter_clockwise": self.tello.rotate_counter_clockwise,
+            "none": lambda _: None
         }
         if self.inAir:
             if direction in cases:
