@@ -33,15 +33,14 @@ class Controller:
 
     def move(self, direction: str, magnitude: int):
         cases = {
-            "forward": self.tello.forward,
-            "backward": self.tello.backward,
-            "left": self.tello.left,
-            "right": self.tello.right,
-
-            "clockwise": self.tello.clockwise,
-            "counter_clockwise": self.tello.counter_clockwise,
-            "up": self.tello.up,
-            "down": self.tello.down,
+            "forward": self.tello.move_forward,
+            "back": self.tello.move_back,
+            "left": self.tello.move_left,
+            "right": self.tello.move_right,
+            "up": self.tello.move_up,
+            "down": self.tello.move_down,
+            "clockwise": self.tello.rotate_clockwise,
+            "counter_clockwise": self.tello.rotate_counter_clockwise,
         }
         if self.inAir:
             if direction in cases:

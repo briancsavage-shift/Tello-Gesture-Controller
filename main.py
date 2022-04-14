@@ -15,21 +15,20 @@ def main():
 
     tello.takeoff()
 
-    tello.move(direction="up", magnitude=20)
-    tello.move(direction="clockwise", magnitude=20)
+    tello.move(direction="up", magnitude=50)
+    tello.move(direction="clockwise", magnitude=50)
 
-    # count = 15
-    #
-    # while count > 0:
-    #     img = tello.view()
-    #     features = detector.detect(img)
-    #     annotated = detector.visualize(features, img)
-    #
-    #     log(features)
-    #
-    #     cv2.imshow("Drone View", annotated)
-    #     cv2.waitKey(1)
-    #     count -= 1
+    count = 15
+    while count > 0:
+        img = tello.view()
+        features = detector.detect(img)
+        annotated = detector.visualize(features, img)
+
+        log(features)
+
+        cv2.imshow("Drone View", annotated)
+        cv2.waitKey(1)
+        count -= 1
 
     tello.land()
     return
