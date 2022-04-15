@@ -13,26 +13,21 @@ class Controller:
         self.tello = Tello()
         self.tello.connect()
         self.tello.streamon()
+
         self.inAir = False
+        self.maxMagnitudeMove = 10
+        self.maxMagnitudeRotation = 30
 
-    @staticmethod
-    def center_in_view(image: np.ndarray,
+    def center_in_view(self,
+                       image: np.ndarray,
                        x: int,
-                       y: int) -> Tuple[str, int]:
-        move = "None"
+                       y: int) -> Tuple[Tuple[str, int], Tuple[str, int]]:
         H, W = image.shape[:2]
-        if x < W // 2:
-            move = "counter_clockwise"
-        elif x > W // 2:
-            move = "clockwise"
-
-        X, Y = (W // 2, H // 2)
-        magnitude = np.sqrt((x - X) ** 2 + (y - Y) ** 2)
-        max_value = np.sqrt((W // 2) ** 2 + (H // 2) ** 2)
-        normalized = np.multiply(np.divide(magnitude, max_value), 100)
-
-        print(f"Computed Magnitude: {normalized}")
-        return move, 0
+        mX = "counter_clockwise" if x < W // 2 else "clockwise"
+        mY = "up" if y < H // 2 else "down"
+        dX = (abs((W // 2) - x) / (W // 2)) * self.maxMagnitudeRotation
+        dY = (abs((H // 2) - y) / (H // 2)) * self.maxMagnitudeMove
+        return (mX, dX), (mY, dY)
 
     def takeoff(self):
         if not self.inAir:

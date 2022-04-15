@@ -1,6 +1,7 @@
 djitellopy~=2.4.0
-opencv-python~=4.5.5.64
+opencv-python~=4.5.2.52
 dlib~=19.23.1
 imutils~=0.5.4
 setuptools~=58.1.0
 numpy~=1.22.3
+mediapipe~=0.8.9.1
