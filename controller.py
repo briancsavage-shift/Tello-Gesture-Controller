@@ -11,8 +11,8 @@ class Controller:
     """
     def __init__(self):
         self.tello = Tello()
-        self.tello.connect()
-        self.tello.streamon()
+        # self.tello.connect()
+        # self.tello.streamon()
 
         self.inAir = False
         self.maxMagnitudeMove = 10
