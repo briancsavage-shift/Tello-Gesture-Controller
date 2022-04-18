@@ -9,7 +9,8 @@ from typing import Dict, List, Tuple, Any
 
 class FaceDetector:
     def __init__(self):
-        self.weights_filename = "weights/shape_predictor_68_face_landmarks.dat"
+        self.weights_filename = "../weights/" \
+                                "shape_predictor_68_face_landmarks.dat"
         self.detector = dlib.get_frontal_face_detector()
         self.predictor = dlib.shape_predictor(self.weights_filename)
 

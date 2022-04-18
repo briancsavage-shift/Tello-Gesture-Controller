@@ -1,8 +1,8 @@
 import cv2
 import time
 
-from controller import Controller
-from detectors import FaceDetector, PoseEstimator
+from src.controller import Controller
+from src.detectors import FaceDetector, PoseEstimator
 
 
 def main():
