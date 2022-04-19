@@ -5,3 +5,4 @@ imutils~=0.5.4
 setuptools~=58.1.0
 numpy~=1.22.3
 mediapipe~=0.8.9.1
+tensorflow~=2.8.0

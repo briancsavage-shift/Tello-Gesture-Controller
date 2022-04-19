@@ -132,7 +132,10 @@ dmypy.json
 .idea/*
 
 # Data Directories
+data/records/*
 data/annotations/*
 data/images/*
 data/test/*
 data/train/*
+*.v2
+models/ssd-mobilenet-v2/*

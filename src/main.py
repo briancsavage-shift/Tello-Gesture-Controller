@@ -1,8 +1,8 @@
 import pprint
 import numpy as np
 import cv2
-from src.controller import Controller
-from src.detectors import FaceDetector
+from controller import Controller
+from detectors import FaceDetector
 
 
 def main():
