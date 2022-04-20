@@ -43,6 +43,7 @@ Steps Still Todo
 3. Use a labelling software to annotate the collected images with each of the hand signal operations the drone should recognize (i.e. `up`, `down`, ...)
 4. Goto the **With Data** section above and complete steps to train the `ssd-mobilenet-v2` with the labelled object detection image data.
 
+<br>
 
 ## Repo Structure
 
@@ -109,13 +110,16 @@ README.txt
 <br>
 
 ## Usage Steps
-1. Connect to drone via the Tello Local Network
-2. `TODO`
-
+***After necessary dependency installation and training***
+```bash
+python /src/router.py
+```
+<br>
 
 ## Implementation Steps
 1. Gather training data via `python /src/recognizer.py`
 
+<br>
 
 ## Resources and References
 1. [TensorFlow Object Detection Tutorial](https://www.youtube.com/watch?v=pDXdlXlaCco&t=475s)
