@@ -18,7 +18,8 @@ Steps Still Todo
 1. [ ] Make script to handle data generation and training processes
 2. [ ] Collect more training data from drone webcam
 3. [ ] Scale dataset to multiple via randomly adding noise and varying training examples
-4. [ ] ???
+4. [ ] Swap object detector for hand landmark detector?
+5. [ ] ???
 ```
 
 <br>
