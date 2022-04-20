@@ -133,9 +133,14 @@ dmypy.json
 
 # Data Directories
 data/records/*
+!data/records/.gitkeep
 data/annotations/*
+!data/annotations/.gitkeep
 data/images/*
+!data/images/.gitkeep
 data/test/*
+!data/test/.gitkeep
 data/train/*
+!data/train/.gitkeep
 *.v2
 models/ssd-mobilenet-v2/*
