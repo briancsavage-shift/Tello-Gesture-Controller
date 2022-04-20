@@ -1,6 +1,7 @@
 # Tello-Drone-Navigation
 
 
+
 ### Setup and Installation
 1. Activate virtual environment via `. venv/Scripts/activate` in the root of 
    the repo directory.
