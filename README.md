@@ -1,5 +1,9 @@
 # Tello Hand Signal Controller
 
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/47962267/164318346-0f7472a1-cc3d-45fe-a5e2-0b56163f3057.gif">
+</p>
+
 1. [**Setup & Installation**](https://github.com/briancsavage/Tello-Hand-Signal-Controller#setup-and-installation)
 2. [**Repo Structure**](https://github.com/briancsavage/Tello-Hand-Signal-Controller/blob/main/README.md#repo-structure)
 3. [**Usage Steps**](https://github.com/briancsavage/Tello-Hand-Signal-Controller#usage-steps)
