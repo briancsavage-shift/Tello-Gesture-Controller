@@ -17,6 +17,9 @@ from typing import Dict, List, Tuple, Any, Optional
 
 
 class SignRecognizer:
+    """
+        Does: Class for detecting drone command hand-signs.
+    """
     def __init__(self):
         #######################################################################
         #                                                                     #
@@ -107,6 +110,11 @@ class SignRecognizer:
                                              f"ckpt-{latest}")).expect_partial()
 
     def record_training_data(self, count_per_class: Optional[int] = 25) -> None:
+        """
+        Record training data for the model from computer camera.
+        :param? count_per_class: (int) Number of images to record per class.
+        :return: None
+        """
         cv2.namedWindow("preview")
         cap: cv2.VideoCapture = cv2.VideoCapture(0)
         ret, frame = cap.read()
@@ -141,6 +149,12 @@ class SignRecognizer:
     @staticmethod
     def clear_directory(path: os.path,
                         recursive: Optional[bool] = False) -> None:
+        """
+        Clear the directory of all files.
+        :param! path: (os.path) Path to the directory to clear.
+        :param? recursive: (boolean) Whether to clear the directory recursively.
+        :return: None
+        """
         if os.path.isdir(path):
             for file in os.listdir(path):
                 if os.path.isfile(os.path.join(path, file)):
@@ -152,6 +166,12 @@ class SignRecognizer:
                                                        recursive=recursive)
 
     def build_directory(self, directory: os.path, filepaths: List[str]) -> None:
+        """
+        Build a directory of images and annotations.
+        :param! directory: (os.path) Path to the directory to save data to.
+        :param! filepaths: (List[str]) List of filepaths to build the directory.
+        :return: None
+        """
         for path in filepaths:
             filename = os.path.basename(path).split('.')[0]
             filepath = os.path.join(self.annotations, filename + '.xml')
