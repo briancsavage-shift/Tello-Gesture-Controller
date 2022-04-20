@@ -144,3 +144,4 @@ data/train/*
 !data/train/.gitkeep
 *.v2
 models/ssd-mobilenet-v2/*
+!models/ssd-mobilenet-v2/.gitkeep
