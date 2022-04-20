@@ -121,7 +121,7 @@ python /src/router.py
 <br>
 
 ## Implementation Steps
-1. Gather training data via `python /src/recognizer.py`
+1. `TODO in final report`
 
 <br>
 
