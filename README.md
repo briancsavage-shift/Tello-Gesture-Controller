@@ -1,4 +1,4 @@
-# Tello Hand Signal Controller
+# Tello Hand Sign Controller
 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/47962267/164318346-0f7472a1-cc3d-45fe-a5e2-0b56163f3057.gif">
