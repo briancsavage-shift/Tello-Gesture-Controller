@@ -1,12 +1,18 @@
 # Tello-Drone-Navigation
 
+
 ### Setup and Installation
 1. Activate virtual environment via `. venv/Scripts/activate` in the root of 
    the repo directory.
 
+
+### Repo Structure
+1. `TODO`
+
+
 ### Usage Steps
 1. Connect to drone via the Tello Local Network
-2. 
+2. `TODO`
 
 
 ### Implementation Steps
