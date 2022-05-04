@@ -46,7 +46,7 @@ Steps Still Todo
 🔴 ***Without Either*** 🔴
 1. Our goal is to collect training data via the webcam of the computer and then once we have our labeled data, we can complete the previous step titled, ***With Data*** and train up the sign detection model.
 2. Use the provided, `recognizer.py` to pull image data from the computer webcam, displays current label being collected to console with instructions on how to construct the hand signal, and saves the image into the data directory within the subdirectory titled images (i.e. `Tello-Hand-Signal-Controller/data/images`)
-3. Use a labelling software to annotate the collected images with each of the hand signal operations the drone should recognize (i.e. `up`, `down`, ...)
+3. Use a LabelImg to annotate the collected images with each of the hand signal operations the drone should recognize (i.e. `up`, `down`, ...)
 4. Goto the **With Data** section above and complete steps to train the `ssd-mobilenet-v2` with the labelled object detection image data.
 
 <br>
