@@ -1,28 +1,67 @@
 import streamlit as st
-
+import av
+import time
+import cv2
+from detectors import FaceDetector
+from streamlit_webrtc import webrtc_streamer
+from controller import Controller
 
 emojis = {
     "up": "🔼",
     "down": "🔽",
     "left": "◀",
     "right": "▶",
-    "up": "🔼",
-    "down": "🔽",
     "clockwise": "⏩",
     "counterclockwise": "⏪",
     "backward": "🔴",
     "forward": "🟢",
 }
 
-def main():
 
+class FrameProcessor:
+    def __init__(self):
+        self.face_detector = FaceDetector()
+        self.drone = Controller()
+
+    def recv(self, frame):
+        if frame:
+            img = av.VideoFrame.to_ndarray(frame, format="bgr24")
+
+            t = time.perf_counter()
+            faces = self.face_detector.detect(img)
+            print(f"Detection took {round(time.perf_counter() - t, 4)} seconds")
+
+            if faces:
+                annotated = self.face_detector.visualize(faces, img)
+                nX, nY = faces[0]["landmarks"][33]
+                cv2.putText(annotated,
+                            f"Nose ({nX}, {nY})",
+                            (10, 20),
+                            cv2.FONT_HERSHEY_SIMPLEX,
+                            0.6, (0, 0, 255), 2)
+
+                (dX, dY) = self.drone.center_in_view(image=img, x=nX, y=nY)
+                cv2.putText(annotated,
+                            f"dX {dX[0]} {round(dX[1], 3)}",
+                            (10, 45),
+                            cv2.FONT_HERSHEY_SIMPLEX,
+                            0.6, (0, 0, 255), 2)
+                cv2.putText(annotated,
+                            f"dY {dY[0]} {round(dY[1], 3)}",
+                            (10, 70),
+                            cv2.FONT_HERSHEY_SIMPLEX,
+                            0.6, (0, 0, 255), 2)
+                return av.VideoFrame.from_ndarray(annotated, format="bgr24")
+
+        return frame
+
+
+def main():
     st.title("Tello Drone Navigation")
 
     with st.sidebar:
         st.subheader("User Inputs")
-
         mode = st.radio("Mode", ["Keyboard Controller", "Gesture Controller"])
-        # st.markdown("-----------")
 
         st.markdown("`On/Off`")
         l, r = st.columns(2)
@@ -40,6 +79,10 @@ def main():
                 })
         else:
             st.subheader("Gesture Controller from Webcam")
+
+
+
+    webrtc_streamer(key="sample", video_processor_factory=FrameProcessor)
 
 
 
