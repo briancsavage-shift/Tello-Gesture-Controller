@@ -5,7 +5,7 @@ from dataclasses import dataclass, field
 
 
 @dataclass
-class Control:
+class Controller:
     tello: Tello = Tello()
     inAir: bool = False
     maxMove: int = 30
@@ -13,8 +13,8 @@ class Control:
     operations: Dict[str, Any] = field(default_factory=dict)
 
     def __init__(self):
-        self.tello.connect()
-        self.tello.streamon()
+        # self.tello.connect()
+        # self.tello.streamon()
         self.operations = {
             "forward": self.tello.move_forward,
             "back": self.tello.move_back,

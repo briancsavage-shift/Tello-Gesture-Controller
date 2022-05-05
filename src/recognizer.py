@@ -276,6 +276,38 @@ class SignRecognizer:
         detections = self.detector.postprocess(inference, blobs)
         return detections
 
+    def inference(self, image):
+        category_index = label_map_util.create_category_index_from_labelmap(
+            os.path.join(self.annotations, 'label_map.pbtxt'))
+
+        H, W = image.shape[:2]
+        img_np = np.array(image)
+        tensor = tf.convert_to_tensor(np.expand_dims(img_np, 0),
+                                      dtype=tf.float32)
+
+        detections = self.detect(tensor)
+        count = int(detections.pop('num_detections'))
+        detections = {key: value[0, :count].numpy()
+                      for key, value in detections.items()}
+
+        detections['num_detections'] = count
+        detections['detection_classes'] = detections['detection_classes'] \
+                                                    .astype(np.int64)
+
+        image_with_detections = img_np.copy()
+        vis_utils.visualize_boxes_and_labels_on_image_array(
+            image_with_detections,
+            detections['detection_boxes'],
+            detections['detection_classes'] + 1,
+            detections['detection_scores'],
+            category_index,
+            use_normalized_coordinates=True,
+            max_boxes_to_draw=1,
+            min_score_thresh=0.5,
+            agnostic_mode=False)
+
+        return detections, image_with_detections
+
 
 
 if __name__ == "__main__":

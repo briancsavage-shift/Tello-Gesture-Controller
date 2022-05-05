@@ -1,16 +1,16 @@
 import cv2
 import time
 
-from src.controller import Controller
-from src.detectors import FaceDetector, PoseEstimator
-
+from controller import Controller
+from detectors import FaceDetector
+from recognizer import SignRecognizer
 
 def main():
     cv2.namedWindow("preview")
     vc = cv2.VideoCapture(0)
 
     face_detector = FaceDetector()
-    pose_detector = PoseEstimator()
+    sign_recognizer = SignRecognizer()
     drone = Controller()
 
     rval, frame = vc.read() if vc.isOpened() else (False, None)
@@ -18,11 +18,12 @@ def main():
         rval, frame = vc.read()
         start = time.perf_counter()
         faces = face_detector.detect(frame)
-        # poses = pose_detector.detect(frame)
-        print(f"Detection took {time.perf_counter() - start} seconds")
+        signs, visualized = sign_recognizer.inference(frame)
+
+        print(f"Detection took {round(time.perf_counter() - start, 4)} seconds")
 
         if faces:
-            frame = face_detector.visualize(faces, frame)
+            frame = face_detector.visualize(faces, visualized)
             nX, nY = faces[0]["landmarks"][33]
             cv2.putText(frame,
                         f"Nose ({nX}, {nY})",

@@ -37,17 +37,14 @@ def main():
         key = cv2.waitKey(20)
         if key == 27:  # exit on ESC
             break
+
         # time.sleep(1)
         # tello.land()
-
     return
 
 
 def log(msg: str):
     pprint.pprint(msg, indent=4)
-
-
-
 
 
 if __name__ == '__main__':
