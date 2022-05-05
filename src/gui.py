@@ -2,6 +2,8 @@ import streamlit as st
 import av
 import time
 import cv2
+import os
+import pandas as pd
 from streamlit_webrtc import webrtc_streamer
 from detectors import FaceDetector
 from detectors import HandDetector
@@ -18,7 +20,6 @@ emojis = {
     "backward": "🔴",
     "forward": "🟢",
 }
-
 
 class FrameProcessor:
     def __init__(self):
@@ -39,6 +40,8 @@ class FrameProcessor:
             hands = self.hand_detector.detect(img)
             print(f"Hands Detection took"
                   f" {round(time.perf_counter() - t, 4)} seconds")
+
+            normalized_position = self.hand_detector.normalize(hands)
 
             if faces:
                 annotated = self.face_detector.visualize(faces, img)
@@ -77,7 +80,9 @@ def main():
 
     with st.sidebar:
         st.subheader("User Inputs")
-        mode = st.radio("Mode", ["Keyboard Controller", "Gesture Controller"])
+        mode = st.radio("Mode", ["Keyboard Controller",
+                                 "Gesture Controller"]) #,
+                                 #"Training Mode"])
 
         st.markdown("`On/Off`")
         l, r = st.columns(2)
@@ -86,7 +91,7 @@ def main():
         st.markdown("-----------")
 
         cmds = {}
-        if mode == "Keyboard Controller":
+        if mode in ["Keyboard Controller", "Training Mode"]:
             st.markdown("`Keyboard Controller`")
             rows = [st.columns(4), st.columns(4)]
             for i, command in enumerate(emojis.keys()):
@@ -97,6 +102,37 @@ def main():
             st.subheader("Gesture Controller from Webcam")
 
     webrtc_streamer(key="sample", video_processor_factory=FrameProcessor)
+
+    # if mode == "Training Mode":
+    #     st.markdown("---------")
+    #     st.subheader("Training Data Collection")
+    #
+    #     l, r = st.columns(2)
+    #     l.button("Delete Last Frame")
+    #     r.button("Save Training Data")
+    #
+    #     # for i, command in enumerate(cmds.keys()):
+    #     #     if cmds[command]:
+    #     #         # if st.session_state["last_loc"] != "None":
+    #         #         st.session_state["label_record"].append(
+    #     #             {
+    #     #                 "command": list(cmds.keys())[i],
+    #     #                 "coordinates": None,
+    #     #             })
+    #                 # st.session_state["last_loc"] = "None"
+    #
+    #     st.write("Data: ")
+    #     st.write(st.session_state["label_record"])
+
+
+# def save_image(command: str):
+#     #if st.session_state["last_loc"] != "None":
+#     st.session_state["label_record"].append(
+#         {
+#             "command": command,
+#             "coordinates": holder,
+#         })
+
 
 
 

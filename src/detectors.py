@@ -73,6 +73,15 @@ class HandDetector:
                 min_tracking_confidence=self.min_track) as hands:
             return hands.process(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
 
+
+    @staticmethod
+    def normalize(hands: NamedTuple) -> NamedTuple:
+        # if hands.multi_hand_landmarks:
+        # #     print(hands.multi_hand_landmarks)
+        # #
+        # # # print('Hands: ', hands)
+        return hands
+
     def visualize(self, results: NamedTuple, image: np.ndarray) -> np.ndarray:
         """
         Visualize the results of the hand detection pipeline.

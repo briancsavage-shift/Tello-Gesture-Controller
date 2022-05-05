@@ -145,3 +145,4 @@ data/train/*
 *.v2
 models/ssd-mobilenet-v2/*
 !models/ssd-mobilenet-v2/.gitkeep
+src/wandb/*
