@@ -1,8 +1,9 @@
 import numpy as np
+import mediapipe as mp
 import dlib
 import cv2
 from imutils import face_utils
-from typing import Dict, List, Tuple, Any
+from typing import Dict, List, Tuple, Any, NamedTuple, Optional
 
 
 class FaceDetector:
@@ -45,3 +46,48 @@ class FaceDetector:
                                    Tuple[int, int]]) -> Tuple[float, float]:
         (left, top), (right, bottom) = face_edges
         return (left + right) / 2, (top + bottom) / 2
+
+
+
+class HandDetector:
+    def __init__(self,
+                 min_detection_confidence: Optional[float] = 0.5,
+                 min_tracking_confidence: Optional[float] = 0.5):
+        self.min_detect: float = min_detection_confidence
+        self.min_track: float = min_tracking_confidence
+        self.model_complexity: int = 1
+
+        self.mp_drawings = mp.solutions.drawing_utils
+        self.mp_drawing_styles = mp.solutions.drawing_styles
+        self.mp_hands = mp.solutions.hands
+
+    def detect(self, image: np.ndarray) -> NamedTuple:
+        """
+        Detect hands within an image.
+        :param image:
+        :return:
+        """
+        with self.mp_hands.Hands(
+                model_complexity=self.model_complexity,
+                min_detection_confidence=self.min_detect,
+                min_tracking_confidence=self.min_track) as hands:
+            return hands.process(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
+
+    def visualize(self, results: NamedTuple, image: np.ndarray) -> np.ndarray:
+        """
+        Visualize the results of the hand detection pipeline.
+        :param results:
+        :param image:
+        :return:
+        """
+        image.flags.writeable = True
+        image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+        if results.multi_hand_landmarks:
+            for hand_landmarks in results.multi_hand_landmarks:
+                self.mp_drawings.draw_landmarks(
+                    image,
+                    hand_landmarks,
+                    self.mp_hands.HAND_CONNECTIONS,
+                    self.mp_drawing_styles.get_default_hand_landmarks_style(),
+                    self.mp_drawing_styles.get_default_hand_connections_style())
+        return cv2.cvtColor(image, cv2.COLOR_BGR2RGB)

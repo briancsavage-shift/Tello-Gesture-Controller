@@ -2,15 +2,17 @@ import streamlit as st
 import av
 import time
 import cv2
-from detectors import FaceDetector
 from streamlit_webrtc import webrtc_streamer
+from detectors import FaceDetector
+from detectors import HandDetector
 from controller import Controller
 
+
 emojis = {
-    "up": "🔼",
-    "down": "🔽",
-    "left": "◀",
-    "right": "▶",
+    "up": "☝️",
+    "down": "👇",
+    "left": "👈",
+    "right": "👉",
     "clockwise": "⏩",
     "counterclockwise": "⏪",
     "backward": "🔴",
@@ -21,6 +23,7 @@ emojis = {
 class FrameProcessor:
     def __init__(self):
         self.face_detector = FaceDetector()
+        self.hand_detector = HandDetector()
         self.drone = Controller()
 
     def recv(self, frame):
@@ -29,7 +32,13 @@ class FrameProcessor:
 
             t = time.perf_counter()
             faces = self.face_detector.detect(img)
-            print(f"Detection took {round(time.perf_counter() - t, 4)} seconds")
+            print(f"Face Detection took"
+                  f" {round(time.perf_counter() - t, 4)} seconds")
+
+            t = time.perf_counter()
+            hands = self.hand_detector.detect(img)
+            print(f"Hands Detection took"
+                  f" {round(time.perf_counter() - t, 4)} seconds")
 
             if faces:
                 annotated = self.face_detector.visualize(faces, img)
@@ -51,6 +60,13 @@ class FrameProcessor:
                             (10, 70),
                             cv2.FONT_HERSHEY_SIMPLEX,
                             0.6, (0, 0, 255), 2)
+            else:
+                annotated = img
+
+            if hands:
+                annotated = self.hand_detector.visualize(hands, annotated)
+
+            if hands or faces:
                 return av.VideoFrame.from_ndarray(annotated, format="bgr24")
 
         return frame
@@ -79,8 +95,6 @@ def main():
                 })
         else:
             st.subheader("Gesture Controller from Webcam")
-
-
 
     webrtc_streamer(key="sample", video_processor_factory=FrameProcessor)
 
