@@ -76,15 +76,17 @@ def main():
             row = {"label": commands[key]}
 
             # print(hand)
+            if hand:
+                for i, p in enumerate(hand.landmark):
+                    print(p)
+                    row.update({f"{i}-x": p.x,
+                                f"{i}-y": p.y,
+                                f"{i}-z": p.z})
 
-            for i, p in enumerate(hand.landmark):
-                print(p)
-                row.update({f"{i}-x": p.x,
-                            f"{i}-y": p.y,
-                            f"{i}-z": p.z})
-
-            entries = entries.append(row, ignore_index=True)
-            print(entries.tail(5))
+                entries = entries.append(row, ignore_index=True)
+                print(entries.tail(5))
+            else:
+                print('No hand detected')
 
 
     cap.release()

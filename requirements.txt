@@ -6,3 +6,4 @@ setuptools~=58.1.0
 numpy~=1.22.3
 mediapipe~=0.8.9.1
 tensorflow~=2.8.0
+scikit-learn~=1.0.2

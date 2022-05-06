@@ -13,8 +13,8 @@ class Controller:
     operations: Dict[str, Any] = field(default_factory=dict)
 
     def __init__(self):
-        # self.tello.connect()
-        # self.tello.streamon()
+        self.tello.connect()
+        self.tello.streamon()
         self.operations = {
             "forward": self.tello.move_forward,
             "back": self.tello.move_back,
@@ -59,8 +59,8 @@ class Controller:
             print("Drone is already in air.")
             return self
         try:
-            self.tello.land()
-            self.inAir = False
+            self.tello.takeoff()
+            self.inAir = True
             return self
         except Exception as err:  # TODO: Add specific exception handling
             print(f"Error raised during landing: {err}")
@@ -92,9 +92,9 @@ class Controller:
             @Returns
 
         """
-        if not self.inAir:
-            print("Drone hasn't taken off. Can't execute move instruction.")
-            return self
+        # if not self.inAir:
+        #     print("Drone hasn't taken off. Can't execute move instruction.")
+        #     return self
 
         if direction not in self.operations:
             print(f"Invalid direction: {direction}")
